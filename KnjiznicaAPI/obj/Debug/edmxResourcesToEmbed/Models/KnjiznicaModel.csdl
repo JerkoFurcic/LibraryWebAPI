@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DBKNJIZNICAModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="DBKNJIZNICAEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Clans" EntityType="DBKNJIZNICAModel.Clan" />
+    <EntitySet Name="Knjigas" EntityType="DBKNJIZNICAModel.Knjiga" />
+    <EntitySet Name="Knjiznicas" EntityType="DBKNJIZNICAModel.Knjiznica" />
+    <EntitySet Name="Posudbas" EntityType="DBKNJIZNICAModel.Posudba" />
+    <EntitySet Name="Zaposleniks" EntityType="DBKNJIZNICAModel.Zaposlenik" />
+    <AssociationSet Name="FK__ClanKnjiz__Knjiz__2C3393D0" Association="DBKNJIZNICAModel.FK__ClanKnjiz__Knjiz__2C3393D0">
+      <End Role="Knjiznica" EntitySet="Knjiznicas" />
+      <End Role="Clan" EntitySet="Clans" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Posudba__IDClana__30F848ED" Association="DBKNJIZNICAModel.FK__Posudba__IDClana__30F848ED">
+      <End Role="Clan" EntitySet="Clans" />
+      <End Role="Posudba" EntitySet="Posudbas" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Knjiga__Knjiznic__267ABA7A" Association="DBKNJIZNICAModel.FK__Knjiga__Knjiznic__267ABA7A">
+      <End Role="Knjiznica" EntitySet="Knjiznicas" />
+      <End Role="Knjiga" EntitySet="Knjigas" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Posudba__IDKnjig__300424B4" Association="DBKNJIZNICAModel.FK__Posudba__IDKnjig__300424B4">
+      <End Role="Knjiga" EntitySet="Knjigas" />
+      <End Role="Posudba" EntitySet="Posudbas" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Posudba__IDKnjiz__2F10007B" Association="DBKNJIZNICAModel.FK__Posudba__IDKnjiz__2F10007B">
+      <End Role="Knjiznica" EntitySet="Knjiznicas" />
+      <End Role="Posudba" EntitySet="Posudbas" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Zaposleni__Knjiz__29572725" Association="DBKNJIZNICAModel.FK__Zaposleni__Knjiz__29572725">
+      <End Role="Knjiznica" EntitySet="Knjiznicas" />
+      <End Role="Zaposlenik" EntitySet="Zaposleniks" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Posudba__IDZapos__31EC6D26" Association="DBKNJIZNICAModel.FK__Posudba__IDZapos__31EC6D26">
+      <End Role="Zaposlenik" EntitySet="Zaposleniks" />
+      <End Role="Posudba" EntitySet="Posudbas" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Clan">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="KnjiznicaID" Type="Int32" Nullable="false" />
+    <Property Name="Ime" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Prezime" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="KontaktBroj" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ClanarinaVrijediDo" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="Knjiznica" Relationship="DBKNJIZNICAModel.FK__ClanKnjiz__Knjiz__2C3393D0" FromRole="Clan" ToRole="Knjiznica" />
+    <NavigationProperty Name="Posudbas" Relationship="DBKNJIZNICAModel.FK__Posudba__IDClana__30F848ED" FromRole="Clan" ToRole="Posudba" />
+  </EntityType>
+  <EntityType Name="Knjiga">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="KnjiznicaID" Type="Int32" Nullable="false" />
+    <Property Name="NazivKnjige" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Pisac" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Knjiznica" Relationship="DBKNJIZNICAModel.FK__Knjiga__Knjiznic__267ABA7A" FromRole="Knjiga" ToRole="Knjiznica" />
+    <NavigationProperty Name="Posudbas" Relationship="DBKNJIZNICAModel.FK__Posudba__IDKnjig__300424B4" FromRole="Knjiga" ToRole="Posudba" />
+  </EntityType>
+  <EntityType Name="Knjiznica">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NazivKnjiznice" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="AdresaKnjiznice" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Clans" Relationship="DBKNJIZNICAModel.FK__ClanKnjiz__Knjiz__2C3393D0" FromRole="Knjiznica" ToRole="Clan" />
+    <NavigationProperty Name="Knjigas" Relationship="DBKNJIZNICAModel.FK__Knjiga__Knjiznic__267ABA7A" FromRole="Knjiznica" ToRole="Knjiga" />
+    <NavigationProperty Name="Posudbas" Relationship="DBKNJIZNICAModel.FK__Posudba__IDKnjiz__2F10007B" FromRole="Knjiznica" ToRole="Posudba" />
+    <NavigationProperty Name="Zaposleniks" Relationship="DBKNJIZNICAModel.FK__Zaposleni__Knjiz__29572725" FromRole="Knjiznica" ToRole="Zaposlenik" />
+  </EntityType>
+  <EntityType Name="Posudba">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="KnjiznicaID" Type="Int32" Nullable="false" />
+    <Property Name="KnjigaID" Type="Int32" Nullable="false" />
+    <Property Name="ClanID" Type="Int32" Nullable="false" />
+    <Property Name="ZaposlenikID" Type="Int32" Nullable="false" />
+    <Property Name="DatumPreuzimanja" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="DatumPovratka" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="Clan" Relationship="DBKNJIZNICAModel.FK__Posudba__IDClana__30F848ED" FromRole="Posudba" ToRole="Clan" />
+    <NavigationProperty Name="Knjiga" Relationship="DBKNJIZNICAModel.FK__Posudba__IDKnjig__300424B4" FromRole="Posudba" ToRole="Knjiga" />
+    <NavigationProperty Name="Knjiznica" Relationship="DBKNJIZNICAModel.FK__Posudba__IDKnjiz__2F10007B" FromRole="Posudba" ToRole="Knjiznica" />
+    <NavigationProperty Name="Zaposlenik" Relationship="DBKNJIZNICAModel.FK__Posudba__IDZapos__31EC6D26" FromRole="Posudba" ToRole="Zaposlenik" />
+  </EntityType>
+  <EntityType Name="Zaposlenik">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="KnjiznicaID" Type="Int32" Nullable="false" />
+    <Property Name="Ime" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Prezime" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="KontaktBroj" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="PocetakRada" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="Knjiznica" Relationship="DBKNJIZNICAModel.FK__Zaposleni__Knjiz__29572725" FromRole="Zaposlenik" ToRole="Knjiznica" />
+    <NavigationProperty Name="Posudbas" Relationship="DBKNJIZNICAModel.FK__Posudba__IDZapos__31EC6D26" FromRole="Zaposlenik" ToRole="Posudba" />
+    <Property Name="Sifra" Type="Int32" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__ClanKnjiz__Knjiz__2C3393D0">
+    <End Type="DBKNJIZNICAModel.Knjiznica" Role="Knjiznica" Multiplicity="1" />
+    <End Type="DBKNJIZNICAModel.Clan" Role="Clan" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Knjiznica">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Clan">
+        <PropertyRef Name="KnjiznicaID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Posudba__IDClana__30F848ED">
+    <End Type="DBKNJIZNICAModel.Clan" Role="Clan" Multiplicity="1" />
+    <End Type="DBKNJIZNICAModel.Posudba" Role="Posudba" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Clan">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Posudba">
+        <PropertyRef Name="ClanID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Knjiga__Knjiznic__267ABA7A">
+    <End Type="DBKNJIZNICAModel.Knjiznica" Role="Knjiznica" Multiplicity="1" />
+    <End Type="DBKNJIZNICAModel.Knjiga" Role="Knjiga" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Knjiznica">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Knjiga">
+        <PropertyRef Name="KnjiznicaID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Posudba__IDKnjig__300424B4">
+    <End Type="DBKNJIZNICAModel.Knjiga" Role="Knjiga" Multiplicity="1" />
+    <End Type="DBKNJIZNICAModel.Posudba" Role="Posudba" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Knjiga">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Posudba">
+        <PropertyRef Name="KnjigaID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Posudba__IDKnjiz__2F10007B">
+    <End Type="DBKNJIZNICAModel.Knjiznica" Role="Knjiznica" Multiplicity="1" />
+    <End Type="DBKNJIZNICAModel.Posudba" Role="Posudba" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Knjiznica">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Posudba">
+        <PropertyRef Name="KnjiznicaID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Zaposleni__Knjiz__29572725">
+    <End Type="DBKNJIZNICAModel.Knjiznica" Role="Knjiznica" Multiplicity="1" />
+    <End Type="DBKNJIZNICAModel.Zaposlenik" Role="Zaposlenik" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Knjiznica">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Zaposlenik">
+        <PropertyRef Name="KnjiznicaID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Posudba__IDZapos__31EC6D26">
+    <End Type="DBKNJIZNICAModel.Zaposlenik" Role="Zaposlenik" Multiplicity="1" />
+    <End Type="DBKNJIZNICAModel.Posudba" Role="Posudba" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Zaposlenik">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Posudba">
+        <PropertyRef Name="ZaposlenikID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

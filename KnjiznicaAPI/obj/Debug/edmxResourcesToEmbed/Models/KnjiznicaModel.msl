@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DBKNJIZNICAModelStoreContainer" CdmEntityContainer="DBKNJIZNICAEntities">
+    <EntitySetMapping Name="Clans">
+      <EntityTypeMapping TypeName="DBKNJIZNICAModel.Clan">
+        <MappingFragment StoreEntitySet="Clan">
+          <ScalarProperty Name="ClanarinaVrijediDo" ColumnName="ClanarinaVrijediDo" />
+          <ScalarProperty Name="KontaktBroj" ColumnName="KontaktBroj" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Prezime" ColumnName="Prezime" />
+          <ScalarProperty Name="Ime" ColumnName="Ime" />
+          <ScalarProperty Name="KnjiznicaID" ColumnName="KnjiznicaID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Knjigas">
+      <EntityTypeMapping TypeName="DBKNJIZNICAModel.Knjiga">
+        <MappingFragment StoreEntitySet="Knjiga">
+          <ScalarProperty Name="Pisac" ColumnName="Pisac" />
+          <ScalarProperty Name="NazivKnjige" ColumnName="NazivKnjige" />
+          <ScalarProperty Name="KnjiznicaID" ColumnName="KnjiznicaID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Knjiznicas">
+      <EntityTypeMapping TypeName="DBKNJIZNICAModel.Knjiznica">
+        <MappingFragment StoreEntitySet="Knjiznica">
+          <ScalarProperty Name="AdresaKnjiznice" ColumnName="AdresaKnjiznice" />
+          <ScalarProperty Name="NazivKnjiznice" ColumnName="NazivKnjiznice" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Posudbas">
+      <EntityTypeMapping TypeName="DBKNJIZNICAModel.Posudba">
+        <MappingFragment StoreEntitySet="Posudba">
+          <ScalarProperty Name="DatumPovratka" ColumnName="DatumPovratka" />
+          <ScalarProperty Name="DatumPreuzimanja" ColumnName="DatumPreuzimanja" />
+          <ScalarProperty Name="ZaposlenikID" ColumnName="ZaposlenikID" />
+          <ScalarProperty Name="ClanID" ColumnName="ClanID" />
+          <ScalarProperty Name="KnjigaID" ColumnName="KnjigaID" />
+          <ScalarProperty Name="KnjiznicaID" ColumnName="KnjiznicaID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Zaposleniks">
+      <EntityTypeMapping TypeName="DBKNJIZNICAModel.Zaposlenik">
+        <MappingFragment StoreEntitySet="Zaposlenik">
+          <ScalarProperty Name="Sifra" ColumnName="Sifra" />
+          <ScalarProperty Name="PocetakRada" ColumnName="PocetakRada" />
+          <ScalarProperty Name="KontaktBroj" ColumnName="KontaktBroj" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Prezime" ColumnName="Prezime" />
+          <ScalarProperty Name="Ime" ColumnName="Ime" />
+          <ScalarProperty Name="KnjiznicaID" ColumnName="KnjiznicaID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
