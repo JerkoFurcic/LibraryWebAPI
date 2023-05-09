@@ -13,7 +13,8 @@ namespace Knjižnica
     {
         private const String baseURL = "http://localhost:59403/api/";
 
-        public static string KnjiznicaID { get => KnjiznicaID; set => KnjiznicaID = value; }
+        private static int knjiznicaID;
+        public static int KnjiznicaID { get => knjiznicaID; set => knjiznicaID = value; }
 
         public static void POST(string url, string jsonContent)
         {
@@ -37,7 +38,6 @@ namespace Knjižnica
                 using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
                 {
                     length = response.ContentLength;
-
                 }
             }
             catch
@@ -68,7 +68,6 @@ namespace Knjižnica
                 using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
                 {
                     length = response.ContentLength;
-
                 }
             }
             catch
@@ -90,7 +89,6 @@ namespace Knjižnica
                 var result = deleteTask.Result;
                 if (result.IsSuccessStatusCode)
                 {
-
                     return;
                 }
             }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Windows.Forms;
 
 namespace KnjiznicaAPI.Controllers
 {
@@ -81,18 +82,25 @@ namespace KnjiznicaAPI.Controllers
         {
             using (var ctx = new DBKNJIZNICAEntities())
             {
-
-                var data = ctx.Knjiznicas
-                    .Where(w => w.ID == ID).SingleOrDefault();
-
-                if (data == null)
+                try
                 {
-                    return NotFound();
+                    var data = ctx.Knjiznicas
+                                        .Where(w => w.ID == ID).SingleOrDefault();
+
+                    if (data == null)
+                    {
+                        return NotFound();
+                    }
+
+                    ctx.Knjiznicas.Remove(data);
+
+                    ctx.SaveChanges();
                 }
-
-                ctx.Knjiznicas.Remove(data);
-
-                ctx.SaveChanges();
+                catch (Exception)
+                {
+                    MessageBox.Show("Knjižnica se ne može izbrisati");
+                }
+                
             }
 
             return Ok();

@@ -12,24 +12,52 @@ namespace KnjiznicaAPI.Controllers
     public class PosudbaController : ApiController
     {
         [HttpGet]
-        public IHttpActionResult Get()
+        public IHttpActionResult Get(string filter, int knjiznicaId)
         {
             IList<PosudbaViewModel> data = null;
 
             using (var ctx = new DBKNJIZNICAEntities())
             {
-                data = ctx.Posudbas
-                            .Select(s => new PosudbaViewModel()
-                            {
-                                ID = s.ID,
-                                KnjiznicaID = s.KnjiznicaID,
-                                KnjigaID = s.KnjigaID,
-                                ClanID = s.ClanID,
-                                ZaposlenikID = s.ZaposlenikID,
-                                DatumPreuzimanja = s.DatumPreuzimanja,
-                                DatumPovratka = s.DatumPovratka
-                                
-                            }).ToList();
+                if (String.IsNullOrEmpty(filter))
+                {
+                    data = ctx.Posudbas.Include("Knjiga").Include("Zaposlenik").Include("Clan")
+                        .Where(w => w.KnjiznicaID == knjiznicaId)
+                                .Select(s => new PosudbaViewModel()
+                                {
+
+                                    ID = s.ID,
+                                    KnjiznicaID = s.KnjiznicaID,
+                                    ClanID = s.ClanID,
+                                    ZaposlenikID = s.ZaposlenikID,
+                                    KnjigaID = s.KnjigaID,
+                                    DatumPreuzimanja = s.DatumPreuzimanja,
+                                    DatumPovratka = s.DatumPovratka,
+                                    Clan = s.Clan.Ime + " " + s.Clan.Prezime,
+                                    Knjiga = s.Knjiga.NazivKnjige + " " + s.Knjiga.Pisac,
+                                    Zaposlenik = s.Zaposlenik.Ime + " " + s.Zaposlenik.Prezime,
+
+
+                                }).ToList();
+                }
+                else
+                {
+                    data = ctx.Posudbas.Include("Knjiga").Include("Zaposlenik").Include("Clan")
+                        .Where(w => w.Knjiga.NazivKnjige.Contains(filter) && w.KnjiznicaID == knjiznicaId ||
+                        w.Clan.Ime.Contains(filter) && w.KnjiznicaID == knjiznicaId || w.Clan.Prezime.Contains(filter) && w.KnjiznicaID == knjiznicaId)
+                                .Select(s => new PosudbaViewModel()
+                                {
+                                    ID = s.ID,
+                                    KnjiznicaID = s.KnjiznicaID,
+                                    ClanID = s.ClanID,
+                                    ZaposlenikID = s.ZaposlenikID,
+                                    KnjigaID = s.KnjigaID,
+                                    DatumPreuzimanja = s.DatumPreuzimanja,
+                                    DatumPovratka = s.DatumPovratka,
+                                    Clan = s.Clan.Ime + " " + s.Clan.Prezime,
+                                    Knjiga = s.Knjiga.NazivKnjige + " " + s.Knjiga.Pisac,
+                                    Zaposlenik = s.Zaposlenik.Ime + " " + s.Zaposlenik.Prezime
+                                }).ToList();
+                }
             }
 
             if (data.Count == 0)
@@ -76,7 +104,7 @@ namespace KnjiznicaAPI.Controllers
                     return NotFound();
                 }
 
-                data.KnjiznicaID = posudbaVM.KnjiznicaID;
+                //data.KnjiznicaID = posudbaVM.KnjiznicaID;
                 data.KnjigaID = posudbaVM.KnjigaID;
                 data.ClanID = posudbaVM.ClanID;
                 data.ZaposlenikID = posudbaVM.ZaposlenikID;

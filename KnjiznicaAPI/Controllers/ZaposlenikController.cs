@@ -6,13 +6,14 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Windows.Forms;
 
 namespace KnjiznicaAPI.Controllers
 {
     public class ZaposlenikController : ApiController
     {
         [HttpGet]
-        public IHttpActionResult Get()
+        public IHttpActionResult Get(int knjiznicaId)
         {
             IList<ZaposlenikViewModel> data = null;
 
@@ -78,7 +79,7 @@ namespace KnjiznicaAPI.Controllers
                     return NotFound();
                 }
 
-                data.KnjiznicaID = zaposlenikVM.KnjiznicaID;
+                //data.KnjiznicaID = zaposlenikVM.KnjiznicaID;
                 data.Ime = zaposlenikVM.Ime;
                 data.Prezime = zaposlenikVM.Prezime;
                 data.Email = zaposlenikVM.Email;
@@ -97,18 +98,25 @@ namespace KnjiznicaAPI.Controllers
         {
             using (var ctx = new DBKNJIZNICAEntities())
             {
-
-                var data = ctx.Zaposleniks
+                try
+                {
+                    var data = ctx.Zaposleniks
                     .Where(w => w.ID == ID).SingleOrDefault();
 
-                if (data == null)
-                {
-                    return NotFound();
+                    if (data == null)
+                    {
+                        return NotFound();
+                    }
+
+                    ctx.Zaposleniks.Remove(data);
+
+                    ctx.SaveChanges();
                 }
-
-                ctx.Zaposleniks.Remove(data);
-
-                ctx.SaveChanges();
+                catch (Exception)
+                {
+                    MessageBox.Show("Zaposlenik se ne može izbrisati");
+                }
+                
             }
 
             return Ok();

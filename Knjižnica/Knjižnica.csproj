@@ -56,7 +56,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Clan.cs" />
     <Compile Include="FormClanKnjiznice.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -99,13 +98,15 @@
     <Compile Include="FormZaposlenik.Designer.cs">
       <DependentUpon>FormZaposlenik.cs</DependentUpon>
     </Compile>
-    <Compile Include="Knjiga.cs" />
-    <Compile Include="Knjiznica.cs" />
-    <Compile Include="Posudba.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util.cs" />
-    <Compile Include="Zaposlenik.cs" />
+    <Compile Include="ViewModels\ClanViewModel.cs" />
+    <Compile Include="ViewModels\KnjigaViewModel.cs" />
+    <Compile Include="ViewModels\KnjiznicaViewModel.cs" />
+    <Compile Include="ViewModels\PosudbaAllViewModel.cs" />
+    <Compile Include="ViewModels\PosudbaViewModel.cs" />
+    <Compile Include="ViewModels\ZaposlenikViewModel.cs" />
     <EmbeddedResource Include="FormClanKnjiznice.resx">
       <DependentUpon>FormClanKnjiznice.cs</DependentUpon>
     </EmbeddedResource>

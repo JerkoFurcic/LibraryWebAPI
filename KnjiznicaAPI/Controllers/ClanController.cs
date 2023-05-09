@@ -6,28 +6,30 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Windows.Forms;
 
 namespace KnjiznicaAPI.Controllers
 {
     public class ClanController : ApiController
     {
         [HttpGet]
-        public IHttpActionResult Get()
+        public IHttpActionResult Get(int knjiznicaId)
         {
             IList<ClanViewModel> data = null;
 
             using (var ctx = new DBKNJIZNICAEntities())
             {
-                data = ctx.Clans
+                data = ctx.Clans.Where(w => w.KnjiznicaID == knjiznicaId)
                             .Select(s => new ClanViewModel()
                             {
-                                ID = s.ID,
                                 KnjiznicaID = s.KnjiznicaID,
+                                ID = s.ID,
                                 Ime = s.Ime,
                                 Prezime = s.Prezime,
                                 Email = s.Email,
                                 KontaktBroj = s.KontaktBroj,
                                 ClanarinaVrijediDo = s.ClanarinaVrijediDo
+
 
                             }).ToList();
             }
@@ -77,6 +79,7 @@ namespace KnjiznicaAPI.Controllers
                 }
 
                 data.KnjiznicaID = clanVM.KnjiznicaID;
+                data.ID = clanVM.ID;
                 data.Ime = clanVM.Ime;
                 data.Prezime = clanVM.Prezime;
                 data.Email = clanVM.Email;
@@ -94,18 +97,25 @@ namespace KnjiznicaAPI.Controllers
         {
             using (var ctx = new DBKNJIZNICAEntities())
             {
-
-                var data = ctx.Clans
-                    .Where(w => w.ID == ID).SingleOrDefault();
-
-                if (data == null)
+                try
                 {
-                    return NotFound();
+                    var data = ctx.Clans
+                                        .Where(w => w.ID == ID).SingleOrDefault();
+
+                    if (data == null)
+                    {
+                        return NotFound();
+                    }
+
+                    ctx.Clans.Remove(data);
+
+                    ctx.SaveChanges();
                 }
-
-                ctx.Clans.Remove(data);
-
-                ctx.SaveChanges();
+                catch (Exception)
+                {
+                    MessageBox.Show("Član se ne može izbrisati");
+                }
+                
             }
 
             return Ok();

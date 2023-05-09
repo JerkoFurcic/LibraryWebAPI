@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Knjižnica
+namespace Knjižnica.ViewModels
 {
-    class Clan
+    class ClanViewModel
     {
         public int KnjiznicaID { get; set; }
         public int ID { get; set; }

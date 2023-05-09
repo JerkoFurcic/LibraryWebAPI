@@ -10,6 +10,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Knjižnica.ViewModels;
 
 namespace Knjižnica
 {
@@ -33,7 +34,7 @@ namespace Knjižnica
             {
                 WebClient client = new WebClient();
                 String json = client.DownloadString("http://localhost:59403/api/" + urlClass);
-                List<Knjiznica> knjiznicas = JsonConvert.DeserializeObject<List<Knjiznica>>(json);
+                List<KnjiznicaViewModel> knjiznicas = JsonConvert.DeserializeObject<List<KnjiznicaViewModel>>(json);
                 dataGridView1.DataSource = knjiznicas;
             }
             catch (WebException)
@@ -54,7 +55,7 @@ namespace Knjižnica
 
         private void AddData()
         {
-            Knjiznica novaKnjiznica = new Knjiznica()
+            KnjiznicaViewModel novaKnjiznica = new KnjiznicaViewModel()
             {
                 NazivKnjiznice = txtNazivKnjiznice.Text.Trim(),
                 AdresaKnjiznice = txtAdresaKnjiznice.Text.Trim(),
@@ -66,7 +67,7 @@ namespace Knjižnica
 
         private void UpdateData()
         {
-            Knjiznica novaKnjiznica = new Knjiznica()
+            KnjiznicaViewModel novaKnjiznica = new KnjiznicaViewModel()
             {
                 NazivKnjiznice = txtNazivKnjiznice.Text.Trim(),
                 AdresaKnjiznice = txtAdresaKnjiznice.Text.Trim(),
@@ -79,16 +80,31 @@ namespace Knjižnica
 
         private void Add_Click(object sender, EventArgs e)
         {
-            AddData();
-            ClearTextData();
-            GetAll();
+            try
+            {
+                if (txtAdresaKnjiznice.Text == "" || txtNazivKnjiznice.Text == "")
+                {
+                    MessageBox.Show("Popunite sva polja", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    AddData();
+                    ClearTextData();
+                    GetAll();
+                }
+            }
+            catch (Exception)
+            {
+
+            }
         }
 
         private void Delete_Click(object sender, EventArgs e)
         {
             try
             {
-                Util.Delete(urlClass, int.Parse(txtID.Text));
+                int id = int.Parse(txtID.Text);
+                Util.Delete(urlClass, id);
                 ClearTextData();
                 GetAll();
             }
@@ -117,6 +133,11 @@ namespace Knjižnica
             txtAdresaKnjiznice.Text = "";
             txtID.Text = "";
             txtNazivKnjiznice.Text = "";
+        }
+
+        private void Clear_Click(object sender, EventArgs e)
+        {
+            ClearTextData();
         }
     }
 }

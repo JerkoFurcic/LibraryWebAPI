@@ -9,6 +9,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Knjižnica.ViewModels;
 
 namespace Knjižnica
 {
@@ -27,48 +28,48 @@ namespace Knjižnica
 
         public void GetAll()
         {
+            int knjiznicaId = Util.KnjiznicaID;
             try
             {
                 WebClient client = new WebClient();
-                String json = client.DownloadString("http://localhost:59403/api/" + urlClass);
-                List<Clan> clans = JsonConvert.DeserializeObject<List<Clan>>(json);
+                String json = client.DownloadString("http://localhost:59403/api/" + urlClass + "/?knjiznicaID=" + knjiznicaId + "");
+                List<ClanViewModel> clans = JsonConvert.DeserializeObject<List<ClanViewModel>>(json);
                 dataGridView1.DataSource = clans;
                 dataGridView1.Columns.Remove("ComboBoxName");
             }
             catch (WebException)
             {
 
-
             }
         }
 
         private void AddData()
         {
-            Clan noviClanKnjiznice = new Clan()
+            ClanViewModel noviClanKnjiznice = new ClanViewModel()
             {
-                KnjiznicaID = int.Parse(txtKnjiznicaID.Text.Trim()),
+                KnjiznicaID = Util.KnjiznicaID,
                 Ime = txtIme.Text.Trim(),
                 Prezime = txtPrezime.Text.Trim(),
                 Email = txtEmail.Text.Trim(),
                 KontaktBroj = txtKontaktBroj.Text.Trim(),
-                ClanarinaVrijediDo = DateTime.Parse(txtClanarinaVrijediDo.Text.Trim())
-
+                ClanarinaVrijediDo = datumIstekaClanarine.Value
             };
+
             var data = JsonConvert.SerializeObject(noviClanKnjiznice);
             Util.POST(urlClass, data);
         }
 
         private void UpdateData()
         {
-            Clan noviClanKnjiznice = new Clan()
+            ClanViewModel noviClanKnjiznice = new ClanViewModel()
             {
-                KnjiznicaID = int.Parse(txtKnjiznicaID.Text.Trim()),
+                KnjiznicaID = Util.KnjiznicaID,
                 ID = int.Parse(txtID.Text.Trim()),
                 Ime = txtIme.Text.Trim(),
                 Prezime = txtPrezime.Text.Trim(),
                 Email = txtEmail.Text.Trim(),
                 KontaktBroj = txtKontaktBroj.Text.Trim(),
-                ClanarinaVrijediDo = DateTime.Parse(txtClanarinaVrijediDo.Text.Trim())
+                ClanarinaVrijediDo = datumIstekaClanarine.Value
             };
 
             var data = JsonConvert.SerializeObject(noviClanKnjiznice);
@@ -83,7 +84,7 @@ namespace Knjižnica
             txtPrezime.Text = "";
             txtEmail.Text = "";
             txtKontaktBroj.Text = "";
-            txtClanarinaVrijediDo.Text = "";
+            datumIstekaClanarine.Value = DateTime.Today;
         }
 
         private void Add_Click(object sender, EventArgs e)
@@ -94,9 +95,9 @@ namespace Knjižnica
                 ClearTextData();
                 GetAll();
             }
-            catch (FormatException)
+            catch (Exception)
             {
-                MessageBox.Show("Error");
+
             }
         }
 
@@ -109,9 +110,9 @@ namespace Knjižnica
                 ClearTextData();
                 GetAll();
             }
-            catch (FormatException)
+            catch (Exception)
             {
-                MessageBox.Show("Error");
+
             }
         }
 
@@ -123,10 +124,34 @@ namespace Knjižnica
                 ClearTextData();
                 GetAll();
             }
-            catch (FormatException)
+            catch (Exception)
             {
-                MessageBox.Show("Error");
+
             }
+        }
+
+        private void Clear_Click(object sender, EventArgs e)
+        {
+            ClearTextData();
+        }
+
+        private bool CheckFields()
+        {
+            if (txtIme.Text == "" || txtPrezime.Text == "" || txtEmail.Text == "" || txtKontaktBroj.Text == "")
+            {
+                MessageBox.Show("Popunite sva polja", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;
+            }
+            if (datumIstekaClanarine.Value.Date != DateTime.Today.AddYears(1))
+            {
+                MessageBox.Show("Članarina mora vrijediti godinu dana od danas", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+
         }
 
         private void dataGridView1_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -138,8 +163,7 @@ namespace Knjižnica
             txtPrezime.Text = Convert.ToString(dataGridView1[3, row].Value);
             txtEmail.Text = Convert.ToString(dataGridView1[4, row].Value);
             txtKontaktBroj.Text = Convert.ToString(dataGridView1[5, row].Value);
-            txtClanarinaVrijediDo.Text = Convert.ToString(dataGridView1[6, row].Value);
+            datumIstekaClanarine.Text = Convert.ToString(dataGridView1[6, row].Value);
         }
-
     }
 }

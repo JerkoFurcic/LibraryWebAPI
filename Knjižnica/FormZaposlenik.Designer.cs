@@ -30,7 +30,7 @@
         {
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.txtKnjiznicaID = new System.Windows.Forms.TextBox();
-            this.txtPocetakRada = new System.Windows.Forms.TextBox();
+            this.txtPocetakRada = new System.Windows.Forms.DateTimePicker();
             this.txtKontaktBroj = new System.Windows.Forms.TextBox();
             this.txtEmail = new System.Windows.Forms.TextBox();
             this.txtPrezime = new System.Windows.Forms.TextBox();
@@ -48,6 +48,7 @@
             this.Delete = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.txtSifra = new System.Windows.Forms.TextBox();
+            this.Clear = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -112,9 +113,11 @@
             // 
             // txtID
             // 
+            this.txtID.Cursor = System.Windows.Forms.Cursors.No;
             this.txtID.Location = new System.Drawing.Point(18, 72);
             this.txtID.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtID.Name = "txtID";
+            this.txtID.ReadOnly = true;
             this.txtID.Size = new System.Drawing.Size(148, 26);
             this.txtID.TabIndex = 7;
             // 
@@ -190,6 +193,7 @@
             // 
             // Add
             // 
+            this.Add.Cursor = System.Windows.Forms.Cursors.Hand;
             this.Add.Location = new System.Drawing.Point(468, 182);
             this.Add.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Add.Name = "Add";
@@ -201,6 +205,7 @@
             // 
             // Update
             // 
+            this.Update.Cursor = System.Windows.Forms.Cursors.Hand;
             this.Update.Location = new System.Drawing.Point(825, 182);
             this.Update.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Update.Name = "Update";
@@ -212,6 +217,7 @@
             // 
             // Delete
             // 
+            this.Delete.Cursor = System.Windows.Forms.Cursors.Hand;
             this.Delete.Location = new System.Drawing.Point(645, 182);
             this.Delete.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Delete.Name = "Delete";
@@ -239,11 +245,23 @@
             this.txtSifra.Size = new System.Drawing.Size(148, 26);
             this.txtSifra.TabIndex = 18;
             // 
+            // Clear
+            // 
+            this.Clear.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.Clear.Location = new System.Drawing.Point(987, 182);
+            this.Clear.Name = "Clear";
+            this.Clear.Size = new System.Drawing.Size(112, 36);
+            this.Clear.TabIndex = 20;
+            this.Clear.Text = "Clear";
+            this.Clear.UseVisualStyleBackColor = true;
+            this.Clear.Click += new System.EventHandler(this.Clear_Click);
+            // 
             // FormZaposlenik
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1200, 692);
+            this.Controls.Add(this.Clear);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.txtSifra);
             this.Controls.Add(this.Delete);
@@ -278,7 +296,7 @@
 
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.TextBox txtKnjiznicaID;
-        private System.Windows.Forms.TextBox txtPocetakRada;
+        private System.Windows.Forms.DateTimePicker txtPocetakRada;
         private System.Windows.Forms.TextBox txtKontaktBroj;
         private System.Windows.Forms.TextBox txtEmail;
         private System.Windows.Forms.TextBox txtPrezime;
@@ -296,5 +314,6 @@
         private System.Windows.Forms.Button Delete;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txtSifra;
+        private System.Windows.Forms.Button Clear;
     }
 }

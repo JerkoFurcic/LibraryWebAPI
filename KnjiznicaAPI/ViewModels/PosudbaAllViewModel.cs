@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Knjižnica
+namespace KnjiznicaAPI.ViewModels
 {
-    class Posudba
+    class PosudbaAllViewModel
     {
         public int ID { get; set; }
         public int KnjiznicaID { get; set; }
@@ -15,5 +15,8 @@ namespace Knjižnica
         public int ZaposlenikID { get; set; }
         public System.DateTime DatumPreuzimanja { get; set; }
         public Nullable<System.DateTime> DatumPovratka { get; set; }
+        public string Zaposlenik { get; set; }
+        public string Clan { get; set; }
+        public string Knjiga { get; set; }
     }
 }

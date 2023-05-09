@@ -38,6 +38,7 @@
             this.ID = new System.Windows.Forms.Label();
             this.Naziv = new System.Windows.Forms.Label();
             this.Adresa = new System.Windows.Forms.Label();
+            this.Clear = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -54,7 +55,8 @@
             // 
             // txtID
             // 
-            this.txtID.Location = new System.Drawing.Point(33, 54);
+            this.txtID.Cursor = System.Windows.Forms.Cursors.No;
+            this.txtID.Location = new System.Drawing.Point(33, 109);
             this.txtID.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtID.Name = "txtID";
             this.txtID.ReadOnly = true;
@@ -63,7 +65,7 @@
             // 
             // txtAdresaKnjiznice
             // 
-            this.txtAdresaKnjiznice.Location = new System.Drawing.Point(33, 232);
+            this.txtAdresaKnjiznice.Location = new System.Drawing.Point(33, 181);
             this.txtAdresaKnjiznice.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtAdresaKnjiznice.Name = "txtAdresaKnjiznice";
             this.txtAdresaKnjiznice.Size = new System.Drawing.Size(175, 26);
@@ -79,7 +81,8 @@
             // 
             // Add
             // 
-            this.Add.Location = new System.Drawing.Point(531, 142);
+            this.Add.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.Add.Location = new System.Drawing.Point(411, 73);
             this.Add.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Add.Name = "Add";
             this.Add.Size = new System.Drawing.Size(112, 35);
@@ -90,7 +93,8 @@
             // 
             // Update
             // 
-            this.Update.Location = new System.Drawing.Point(952, 142);
+            this.Add.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.Update.Location = new System.Drawing.Point(411, 118);
             this.Update.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Update.Name = "Update";
             this.Update.Size = new System.Drawing.Size(112, 35);
@@ -101,7 +105,8 @@
             // 
             // Delete
             // 
-            this.Delete.Location = new System.Drawing.Point(740, 142);
+            this.Add.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.Delete.Location = new System.Drawing.Point(411, 204);
             this.Delete.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Delete.Name = "Delete";
             this.Delete.Size = new System.Drawing.Size(112, 35);
@@ -113,7 +118,7 @@
             // ID
             // 
             this.ID.AutoSize = true;
-            this.ID.Location = new System.Drawing.Point(298, 58);
+            this.ID.Location = new System.Drawing.Point(244, 112);
             this.ID.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.ID.Name = "ID";
             this.ID.Size = new System.Drawing.Size(26, 20);
@@ -123,7 +128,7 @@
             // Naziv
             // 
             this.Naziv.AutoSize = true;
-            this.Naziv.Location = new System.Drawing.Point(298, 149);
+            this.Naziv.Location = new System.Drawing.Point(244, 148);
             this.Naziv.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.Naziv.Name = "Naziv";
             this.Naziv.Size = new System.Drawing.Size(113, 20);
@@ -133,18 +138,30 @@
             // Adresa
             // 
             this.Adresa.AutoSize = true;
-            this.Adresa.Location = new System.Drawing.Point(298, 237);
+            this.Adresa.Location = new System.Drawing.Point(244, 184);
             this.Adresa.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.Adresa.Name = "Adresa";
             this.Adresa.Size = new System.Drawing.Size(60, 20);
             this.Adresa.TabIndex = 9;
             this.Adresa.Text = "Adresa";
             // 
+            // Clear
+            // 
+            this.Add.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.Clear.Location = new System.Drawing.Point(411, 161);
+            this.Clear.Name = "Clear";
+            this.Clear.Size = new System.Drawing.Size(112, 35);
+            this.Clear.TabIndex = 10;
+            this.Clear.Text = "Clear";
+            this.Clear.UseVisualStyleBackColor = true;
+            this.Clear.Click += new System.EventHandler(this.Clear_Click);
+            // 
             // FormKnjiznica
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1200, 692);
+            this.Controls.Add(this.Clear);
             this.Controls.Add(this.Adresa);
             this.Controls.Add(this.Naziv);
             this.Controls.Add(this.ID);
@@ -177,5 +194,6 @@
         private System.Windows.Forms.Label ID;
         private System.Windows.Forms.Label Naziv;
         private System.Windows.Forms.Label Adresa;
+        private System.Windows.Forms.Button Clear;
     }
 }

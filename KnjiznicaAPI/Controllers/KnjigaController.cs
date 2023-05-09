@@ -6,19 +6,20 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Windows.Forms;
 
 namespace KnjiznicaAPI.Controllers
 {
     public class KnjigaController : ApiController
     {
         [HttpGet]
-        public IHttpActionResult Get()
+        public IHttpActionResult Get(int knjiznicaId)
         {
             IList<KnjigaViewModel> data = null;
 
             using (var ctx = new DBKNJIZNICAEntities())
             {
-                data = ctx.Knjigas
+                data = ctx.Knjigas.Where(w => w.KnjiznicaID == knjiznicaId)
                             .Select(s => new KnjigaViewModel()
                             {
                                 ID = s.ID,
@@ -44,12 +45,11 @@ namespace KnjiznicaAPI.Controllers
             {
                 var data = new Knjiga();
 
-                data.KnjiznicaID = knjigaVM.KnjiznicaID;
                 data.NazivKnjige = knjigaVM.NazivKnjige;
                 data.Pisac = knjigaVM.Pisac;
+                data.KnjiznicaID = knjigaVM.KnjiznicaID;
 
                 ctx.Knjigas.Add(data);
-
                 ctx.SaveChanges();
             }
 
@@ -84,18 +84,25 @@ namespace KnjiznicaAPI.Controllers
         {
             using (var ctx = new DBKNJIZNICAEntities())
             {
-
-                var data = ctx.Knjigas
+                try
+                {
+                    var data = ctx.Knjigas
                     .Where(w => w.ID == ID).SingleOrDefault();
 
-                if (data == null)
-                {
-                    return NotFound();
+                    if (data == null)
+                    {
+                        return NotFound();
+                    }
+
+                    ctx.Knjigas.Remove(data);
+
+                    ctx.SaveChanges();
                 }
-
-                ctx.Knjigas.Remove(data);
-
-                ctx.SaveChanges();
+                catch (Exception)
+                {
+                    MessageBox.Show("Knjiga se ne može izbrisati");
+                }
+                
             }
 
             return Ok();

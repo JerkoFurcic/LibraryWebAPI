@@ -46,5 +46,14 @@ namespace Knjižnica
             var myForm = new FormPosudbe();
             myForm.ShowDialog();
         }
+
+        private void FormMenu_Shown(object sender, EventArgs e)
+        {
+            var myForm = new FormLogin();
+            myForm.ShowDialog();
+
+            if (Util.KnjiznicaID == 0)
+                this.Close();
+        }
     }
 }

@@ -94,6 +94,7 @@
             this.Controls.Add(this.menuStrip1);
             this.Name = "FormMenu";
             this.Text = "Knjižnica";
+            this.Shown += new System.EventHandler(this.FormMenu_Shown);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);

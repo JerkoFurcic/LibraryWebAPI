@@ -1,20 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 using System.Net;
-using System.Data.SqlClient;
-using System.Data;
+using System.IO;
+using System.Net.Http;
+using Knjižnica.ViewModels;
 
 namespace Knjižnica
 {
     public partial class FormKnjige : Form
     {
         private string urlClass = "Knjiga/";
-        string cs = "data source=LAPTOP-K71Q5NCK;initial catalog=DBKNJIZNICA;integrated security=True;";
-        SqlConnection con;
-        SqlDataAdapter adapt;
-        DataTable dt;
 
         public FormKnjige()
         {
@@ -28,11 +31,12 @@ namespace Knjižnica
 
         public void GetAll()
         {
+            int knjiznicaId = Util.KnjiznicaID;
             try
             {
                 WebClient client = new WebClient();
-                String json = client.DownloadString("http://localhost:59403/api/" + urlClass);
-                List<Knjiga> knjigas = JsonConvert.DeserializeObject<List<Knjiga>>(json);
+                String json = client.DownloadString("http://localhost:59403/api/Knjiga/?knjiznicaID=" + knjiznicaId + "");
+                List<KnjigaViewModel> knjigas = JsonConvert.DeserializeObject<List<KnjigaViewModel>>(json);
                 dataGridView1.DataSource = knjigas;
                 dataGridView1.Columns.Remove("ComboBoxName");
             }
@@ -46,36 +50,43 @@ namespace Knjižnica
         {
             try
             {
-                AddData();
+                if (txtNazivKnjige.Text == "" || txtPisac.Text == "")
+                {
+                    MessageBox.Show("Popunite sva polja", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    AddData();
+                    ClearTextData();
+                    GetAll();
+                }
             }
-            catch (FormatException)
+            catch (Exception)
             {
-                MessageBox.Show("Test");
+                MessageBox.Show("Error", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            ClearTextData();
-            GetAll();
         }
 
         private void AddData()
         {
-            Knjiga novaKnjiga = new Knjiga()
+            KnjigaViewModel novaKnjiga = new KnjigaViewModel()
             {
                 NazivKnjige = txtNazivKnjige.Text.Trim(),
                 Pisac = txtPisac.Text.Trim(),
-                KnjiznicaID = int.Parse(txtKnjiznicaID.Text.Trim()),
+                KnjiznicaID = Util.KnjiznicaID
             };
-            
+
             var data = JsonConvert.SerializeObject(novaKnjiga);
             Util.POST(urlClass, data);
         }
 
         private void UpdateData()
         {
-            Knjiga novaKnjiga = new Knjiga()
+            KnjigaViewModel novaKnjiga = new KnjigaViewModel()
             {
                 NazivKnjige = txtNazivKnjige.Text.Trim(),
                 Pisac = txtPisac.Text.Trim(),
-                KnjiznicaID = int.Parse(txtKnjiznicaID.Text.Trim()),
+                KnjiznicaID = Util.KnjiznicaID,
                 ID = int.Parse(txtID.Text.Trim())
             };
 
@@ -86,7 +97,6 @@ namespace Knjižnica
         private void dataGridView1_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             int row = e.RowIndex;
-            txtKnjiznicaID.Text = Convert.ToString(dataGridView1[0, row].Value);
             txtID.Text = Convert.ToString(dataGridView1[1, row].Value);
             txtNazivKnjige.Text = Convert.ToString(dataGridView1[2, row].Value);
             txtPisac.Text = Convert.ToString(dataGridView1[3, row].Value);
@@ -99,12 +109,11 @@ namespace Knjižnica
                 int id = int.Parse(txtID.Text);
                 Util.Delete(urlClass, id);
                 ClearTextData();
-                SqlConnection();
                 GetAll();
             }
-            catch (FormatException)
+            catch (Exception)
             {
-                GetAll();
+
             }
         }
 
@@ -125,21 +134,16 @@ namespace Knjižnica
         public void ClearTextData()
         {
             txtID.Text = "";
-            txtKnjiznicaID.Text = "";
             txtNazivKnjige.Text = "";
             txtPisac.Text = "";
         }
 
-        public void SqlConnection()
+        private void Clear_Click(object sender, EventArgs e)
         {
-            con = new SqlConnection(cs);
-            con.Open();
-            adapt = new SqlDataAdapter("select * from Knjiga", con);
-            dt = new DataTable();
-            adapt.Fill(dt);
-            dataGridView1.DataSource = dt;
-            con.Close();
+            ClearTextData();
         }
+
+        
         
     }
 

@@ -9,6 +9,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Knjižnica.ViewModels;
 
 namespace Knjižnica
 {
@@ -22,11 +23,12 @@ namespace Knjižnica
 
         public void GetAll()
         {
+            int knjiznicaId = Util.KnjiznicaID;
             try
             {
                 WebClient client = new WebClient();
-                String json = client.DownloadString("http://localhost:59403/api/" + urlClass);
-                List<Zaposlenik> zaposleniks = JsonConvert.DeserializeObject<List<Zaposlenik>>(json);
+                String json = client.DownloadString("http://localhost:59403/api/Zaposlenik/?knjiznicaID=" + knjiznicaId + "");
+                List<ZaposlenikViewModel> zaposleniks = JsonConvert.DeserializeObject<List<ZaposlenikViewModel>>(json);
                 dataGridView1.DataSource = zaposleniks;
                 dataGridView1.Columns.Remove("ComboBoxName");
             }
@@ -38,14 +40,14 @@ namespace Knjižnica
 
         private void AddData()
         {
-            Zaposlenik noviZaposlenik = new Zaposlenik()
+            ZaposlenikViewModel noviZaposlenik = new ZaposlenikViewModel()
             {
-                KnjiznicaID = int.Parse(txtKnjiznicaID.Text.Trim()),
+                KnjiznicaID = Util.KnjiznicaID,
                 Ime = txtIme.Text.Trim(),
                 Prezime = txtPrezime.Text.Trim(),
                 Email = txtEmail.Text.Trim(),
                 KontaktBroj = txtKontaktBroj.Text.Trim(),
-                PocetakRada = DateTime.Parse(txtPocetakRada.Text.Trim()),
+                PocetakRada = txtPocetakRada.Value,
                 Sifra = int.Parse(txtSifra.Text.Trim())
             };
 
@@ -55,16 +57,15 @@ namespace Knjižnica
 
         private void UpdateData()
         {
-            Zaposlenik noviZaposlenik = new Zaposlenik()
+            ZaposlenikViewModel noviZaposlenik = new ZaposlenikViewModel()
             {
-
-                KnjiznicaID = int.Parse(txtKnjiznicaID.Text.Trim()),
+                KnjiznicaID = Util.KnjiznicaID,
                 ID = int.Parse(txtID.Text.Trim()),
                 Ime = txtIme.Text.Trim(),
                 Prezime = txtPrezime.Text.Trim(),
                 Email = txtEmail.Text.Trim(),
                 KontaktBroj = txtKontaktBroj.Text.Trim(),
-                PocetakRada = DateTime.Parse(txtPocetakRada.Text.Trim()),
+                PocetakRada = txtPocetakRada.Value,
                 Sifra = int.Parse(txtSifra.Text.Trim())
             };
 
@@ -79,24 +80,52 @@ namespace Knjižnica
 
         private void Add_Click(object sender, EventArgs e)
         {
-            AddData();
-            ClearTextData();
-            GetAll();
+            try
+            {
+                if (txtIme.Text == "" || txtPrezime.Text == "" || txtSifra.Text == "" || txtKontaktBroj.Text == "" || txtEmail.Text == "")
+                {
+                    MessageBox.Show("popunite sva polja", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    AddData();
+                    ClearTextData();
+                    GetAll();
+                }
+            }
+            catch (Exception)
+            {
+
+            }
         }
 
         private void Delete_Click(object sender, EventArgs e)
         {
-            int id = int.Parse(txtID.Text);
-            Util.Delete(urlClass, id);
-            ClearTextData();
-            GetAll();
+            try
+            {
+                int id = int.Parse(txtID.Text);
+                Util.Delete(urlClass, id);
+                ClearTextData();
+                GetAll();
+            }
+            catch (Exception)
+            {
+
+            }
         }
 
         private void Update_Click(object sender, EventArgs e)
         {
-            UpdateData();
-            ClearTextData();
-            GetAll();
+            try
+            {
+                UpdateData();
+                ClearTextData();
+                GetAll();
+            }
+            catch (Exception)
+            {
+
+            }
         }
 
         private void dataGridView1_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -122,6 +151,11 @@ namespace Knjižnica
             txtPocetakRada.Text = "";
             txtPrezime.Text = "";
             txtSifra.Text = "";
+        }
+
+        private void Clear_Click(object sender, EventArgs e)
+        {
+            ClearTextData();
         }
     }
 }

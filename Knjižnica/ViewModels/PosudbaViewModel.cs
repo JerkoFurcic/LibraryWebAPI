@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace KnjiznicaAPI.ViewModels
+namespace Knjižnica.ViewModels
 {
-    public class PosudbaViewModel
+    class PosudbaViewModel
     {
-        public string Zaposlenik { get; set; }
-        public string Clan { get; set; }
-        public string Knjiga { get; set; }
         public int ID { get; set; }
         public int KnjiznicaID { get; set; }
         public int KnjigaID { get; set; }
